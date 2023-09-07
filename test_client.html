@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Client</title>
+    <style>
+        body {
+            font-family: Roboto, monospace;
+        }
+        input[type="text"] {
+            font-family: Roboto, monospace;
+        }
+        .endpoint {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .endpoint input[type="text"] {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Settings</h1>
+    
+    <div>
+        <label for="base_url">Base URL:</label>
+        <input type="text" id="base_url" name="base_url" size="40">
+    </div>
+
+    <div>
+        <label for="apiKeyDesigner">API Key (Designer):</label>
+        <input type="text" id="apiKeyDesigner" name="apiKeyDesigner" size="30">
+    </div>
+
+    <div>
+        <label for="apiKeyPlayer">API Key (Player):</label>
+        <input type="text" id="apiKeyPlayer" name="apiKeyPlayer" size="30">
+    </div>
+
+    <div>
+        <label for="apiKeySensor">API Key (Sensor):</label>
+        <input type="text" id="apiKeySensor" name="apiKeySensor" size="30">
+    </div>
+
+    <div>
+        <label for="apiKeyActuator">API Key (Actuator):</label>
+        <input type="text" id="apiKeyActuator" name="apiKeyActuator" size="30">
+    </div>
+
+    <div>
+        <p>Role:</p>
+        <input type="radio" id="roleDesigner" name="role" value="designer">
+        <label for="roleDesigner">Designer</label><br>
+        <input type="radio" id="rolePlayer" name="role" value="player">
+        <label for="rolePlayer">Player</label><br>
+        <input type="radio" id="roleSensor" name="role" value="sensor">
+        <label for="roleSensor">Sensor</label><br>
+        <input type="radio" id="roleActuator" name="role" value="actuator">
+        <label for="roleActuator">Actuator</label><br>
+    </div>
+    
+    <h1>Endpoints</h1>
+    <!-- For each endpoint -->
+    
+<div class="endpoint">
+    <h2>/ping</h2>
+    <p>Allows a user to check if the server is running.</p>
+    
+    <button type="button" onclick="submitRequest('/ping')">Submit</button>
+    <p id="/ping_url"></p>
+    <p id="/ping_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/create_item</h2>
+    <p>Allows a designer to create a new item with specific attributes, including a timer and visibility.</p>
+    <label for="/create_item_location_id">location_id: The location_id of the item.</label><input type="text" id="/create_item_location_id" name="location_id" class="/create_item_param">
+<label for="/create_item_owner">owner: The name of the owner of the item, should be either PUBLIC_DOMAIN or A_PLAYER (optional, default is PUBLIC_DOMAIN).</label><input type="text" id="/create_item_owner" name="owner" class="/create_item_param">
+<label for="/create_item_name">name: The name of the item (e.g., "flyer", don't have to be unique, can't contain commas).</label><input type="text" id="/create_item_name" name="name" class="/create_item_param">
+<label for="/create_item_type">type: The type of the item (e.g., FLYER).</label><input type="text" id="/create_item_type" name="type" class="/create_item_param">
+<label for="/create_item_coordinates">coordinates: The coordinates of the item (x, y, z for an INDOOR location or latitude, longitude for an OUTDOOR location, comma-separated).</label><input type="text" id="/create_item_coordinates" name="coordinates" class="/create_item_param">
+<label for="/create_item_tags">tags: The tags of the item (comma-separated, e.g., "tag1,tag2", optional).</label><input type="text" id="/create_item_tags" name="tags" class="/create_item_param">
+<label for="/create_item_attributes">attributes: The attributes of the item (comma-separated, e.g., "color=blue,shape=circle", optional).</label><input type="text" id="/create_item_attributes" name="attributes" class="/create_item_param">
+    <button type="button" onclick="submitRequest('/create_item')">Submit</button>
+    <p id="/create_item_url"></p>
+    <p id="/create_item_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/delete_item</h2>
+    <p>Allows a designer to delete an existing item.</p>
+    <label for="/delete_item_item_id">item_id: The id of the item.</label><input type="text" id="/delete_item_item_id" name="item_id" class="/delete_item_param">
+    <button type="button" onclick="submitRequest('/delete_item')">Submit</button>
+    <p id="/delete_item_url"></p>
+    <p id="/delete_item_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/update_item</h2>
+    <p>Allows a designer to update a parameter or parameters of an existing item. At least one parameter must be specified.</p>
+    <label for="/update_item_item_id">item_id: The id of the item.</label><input type="text" id="/update_item_item_id" name="item_id" class="/update_item_param">
+<label for="/update_item_owner">owner: The name of the owner of the item, should be either PUBLIC_DOMAIN or A_PLAYER (optional).</label><input type="text" id="/update_item_owner" name="owner" class="/update_item_param">
+<label for="/update_item_name">name: The name of the item (e.g., "flyer", don't have to be unique, optional).</label><input type="text" id="/update_item_name" name="name" class="/update_item_param">
+<label for="/update_item_type">type: The type of the item (e.g., FLYER, optional).</label><input type="text" id="/update_item_type" name="type" class="/update_item_param">
+<label for="/update_item_location_id">location_id: The location_id of the item (optional).</label><input type="text" id="/update_item_location_id" name="location_id" class="/update_item_param">
+<label for="/update_item_coordinates">coordinates: The coordinates of the item (x, y, z for an INDOOR location or latitude, longitude for an OUTDOOR location, comma-separated, optional).</label><input type="text" id="/update_item_coordinates" name="coordinates" class="/update_item_param">
+<label for="/update_item_tags">tags: The tags of the item (comma-separated, e.g., "tag1,tag2", optional).</label><input type="text" id="/update_item_tags" name="tags" class="/update_item_param">
+<label for="/update_item_attributes">attributes: The attributes of the item (comma-separated, e.g., "color=blue,shape=circle", optional). You can increment/decrement an attribute by using the following format: "votes=+1" or "votes=-1".</label><input type="text" id="/update_item_attributes" name="attributes" class="/update_item_param">
+    <button type="button" onclick="submitRequest('/update_item')">Submit</button>
+    <p id="/update_item_url"></p>
+    <p id="/update_item_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/get_item</h2>
+    <p>Returns the details of a specific item.</p>
+    <label for="/get_item_item_id">item_id: The id of the item.</label><input type="text" id="/get_item_item_id" name="item_id" class="/get_item_param">
+    <button type="button" onclick="submitRequest('/get_item')">Submit</button>
+    <p id="/get_item_url"></p>
+    <p id="/get_item_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/list_items</h2>
+    <p>Returns a list of all or filtered items within a location specified by its location_id.</p>
+    <label for="/list_items_location_id">location_id: The location_id for the items.</label><input type="text" id="/list_items_location_id" name="location_id" class="/list_items_param">
+<label for="/list_items_tags">tags: A list of tags to filter the items by (default is no filter, optional).</label><input type="text" id="/list_items_tags" name="tags" class="/list_items_param">
+<label for="/list_items_max_items">max_items: The maximum number of items to return (default is 100).</label><input type="text" id="/list_items_max_items" name="max_items" class="/list_items_param">
+<label for="/list_items_position">position: The position within the location to filter items by. For INDOOR locations, x,y,z coordinates are required. For OUTDOOR locations, latitude and longitude are required.</label><input type="text" id="/list_items_position" name="position" class="/list_items_param">
+<label for="/list_items_radius">radius: The radius from the point within which to filter the items (optional).</label><input type="text" id="/list_items_radius" name="radius" class="/list_items_param">
+    <button type="button" onclick="submitRequest('/list_items')">Submit</button>
+    <p id="/list_items_url"></p>
+    <p id="/list_items_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/acquire_item</h2>
+    <p>Allows a player to acquire an item from a specific location. After acquiring the item, the owner of the item will be changed to A_PLAYER and not visible to other players.</p>
+    <label for="/acquire_item_item_id">item_id: The id of the item.</label><input type="text" id="/acquire_item_item_id" name="item_id" class="/acquire_item_param">
+    <button type="button" onclick="submitRequest('/acquire_item')">Submit</button>
+    <p id="/acquire_item_url"></p>
+    <p id="/acquire_item_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/create_location</h2>
+    <p>Allows a designer to create a new location.</p>
+    <label for="/create_location_name">name: The name of the new location (should be unique, can't contain commas).</label><input type="text" id="/create_location_name" name="name" class="/create_location_param">
+<label for="/create_location_type">type: The type of the new location (should be OUTDOOR or INDOOR).</label><input type="text" id="/create_location_type" name="type" class="/create_location_param">
+    <button type="button" onclick="submitRequest('/create_location')">Submit</button>
+    <p id="/create_location_url"></p>
+    <p id="/create_location_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/delete_location</h2>
+    <p>Allows a designer to delete a location.</p>
+    <label for="/delete_location_location_id">location_id: The id of the location.</label><input type="text" id="/delete_location_location_id" name="location_id" class="/delete_location_param">
+    <button type="button" onclick="submitRequest('/delete_location')">Submit</button>
+    <p id="/delete_location_url"></p>
+    <p id="/delete_location_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/list_locations</h2>
+    <p>Returns a list of all locations.</p>
+    
+    <button type="button" onclick="submitRequest('/list_locations')">Submit</button>
+    <p id="/list_locations_url"></p>
+    <p id="/list_locations_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/create_tag</h2>
+    <p>Creates a new and unique tag.</p>
+    <label for="/create_tag_name">name: The name of the tag (should be unique, can't contain spaces or commas).</label><input type="text" id="/create_tag_name" name="name" class="/create_tag_param">
+    <button type="button" onclick="submitRequest('/create_tag')">Submit</button>
+    <p id="/create_tag_url"></p>
+    <p id="/create_tag_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/list_tags</h2>
+    <p>Returns a list of all tags.</p>
+    <label for="/list_tags_max_tags">max_tags: The maximum number of tags to return (default is 100).</label><input type="text" id="/list_tags_max_tags" name="max_tags" class="/list_tags_param">
+    <button type="button" onclick="submitRequest('/list_tags')">Submit</button>
+    <p id="/list_tags_url"></p>
+    <p id="/list_tags_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/delete_tag</h2>
+    <p>Allows a designer to delete a tag.</p>
+    <label for="/delete_tag_tag">tag: The name of the tag.</label><input type="text" id="/delete_tag_tag" name="tag" class="/delete_tag_param">
+    <button type="button" onclick="submitRequest('/delete_tag')">Submit</button>
+    <p id="/delete_tag_url"></p>
+    <p id="/delete_tag_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/update_attribute</h2>
+    <p>Allows a player or a sensor to update an attribute of an item.</p>
+    <label for="/update_attribute_item_id">item_id: The id of the item.</label><input type="text" id="/update_attribute_item_id" name="item_id" class="/update_attribute_param">
+<label for="/update_attribute_attribute">attribute: The attribute of the item in key-value format (e.g., "temperature=20"). You can increment/decrement an attribute by using the following format: "votes=+1" or "votes=-1".</label><input type="text" id="/update_attribute_attribute" name="attribute" class="/update_attribute_param">
+    <button type="button" onclick="submitRequest('/update_attribute')">Submit</button>
+    <p id="/update_attribute_url"></p>
+    <p id="/update_attribute_result"></p>
+</div>
+
+<div class="endpoint">
+    <h2>/get_attribute</h2>
+    <p>Allows a player or an actuator to read an attribute of an item.</p>
+    <label for="/get_attribute_item_id">item_id: The id of the item.</label><input type="text" id="/get_attribute_item_id" name="item_id" class="/get_attribute_param">
+<label for="/get_attribute_attribute">attribute: The attribute of the item.</label><input type="text" id="/get_attribute_attribute" name="attribute" class="/get_attribute_param">
+    <button type="button" onclick="submitRequest('/get_attribute')">Submit</button>
+    <p id="/get_attribute_url"></p>
+    <p id="/get_attribute_result"></p>
+</div>
+
+    
+    <script>
+        function submitRequest(endpoint) {
+            var base_url = document.getElementById('base_url').value;
+            var api_key = getApiKey();
+            var url = base_url + endpoint;
+            var param_string = "?api_key=" + api_key;
+            var parameters = document.getElementsByClassName(endpoint + '_param');
+            for (var i = 0; i < parameters.length; i++) {
+                if (parameters[i].value != '') {
+                    param_string += '&' + parameters[i].name + '=' + encodeURIComponent(parameters[i].value);
+                }
+            }
+            var full_url = url + param_string;
+            document.getElementById(endpoint + '_url').innerText = 'Generated URL:\n' + full_url;
+            var startTime = Date.now();
+            fetch(full_url)
+                .then(response => {
+                        var endTime = Date.now();
+                        var responseTime = endTime - startTime;
+                        return response.text().then(text => ({
+                            text: text,
+                            status: response.status,
+                            statusText: response.statusText,
+                            responseTime: responseTime
+                        }));
+                    })
+                    .then(data => {
+                        document.getElementById(endpoint + '_result').innerText = 
+                            'Result:\n' + data.text + '\n' + 
+                            data.status + ' ' + data.statusText + 
+                            ' (' + data.responseTime + ' ms)';
+                    })
+                    .catch((error) => {
+                        document.getElementById(endpoint + '_result').innerText = 'Error:\n' + error;
+                    });
+            }
+
+        function getApiKey() {
+            var role = document.querySelector('input[name="role"]:checked').value;
+            return document.getElementById('apiKey' + role.charAt(0).toUpperCase() + role.slice(1)).value;
+        }
+    </script>
+</body>
+</html>
