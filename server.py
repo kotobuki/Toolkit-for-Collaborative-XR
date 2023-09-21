@@ -358,7 +358,11 @@ def item_to_csv(item):
     if item.to_dict()["attributes"] is None or item.to_dict()["attributes"] == {}:
         attributes_str = "null"
     else:
-        attributes_str = ";".join(f"{key}={value}" for key, value in item.to_dict()["attributes"].items())
+        # Sort the attributes by key and convert the attributes dictionary to key-value pairs in key=value format
+        attributes_str = ";".join(
+            f"{key}={value}"
+            for key, value in sorted(item.to_dict()["attributes"].items(), key=lambda item: item[0])
+        )
 
     item_in_csv = (
         f"{item.id},{name_str},{item.to_dict()['owner']},{item.to_dict()['type']},{coordinates_csv},{attributes_str}\n"
