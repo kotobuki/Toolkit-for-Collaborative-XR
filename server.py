@@ -492,7 +492,7 @@ def update_item():
             # Check if the tags exist
             tags_ref = db.collection("tags")
             for tag in tags_list:
-                query_ref = tags_ref.where(filter=FieldFilter(field_path="tag", op_string="==", value=tag))
+                query_ref = tags_ref.where(filter=FieldFilter(field_path="name", op_string="==", value=tag))
                 found_tags = query_ref.get()
                 if len(found_tags) == 0:
                     raise ValueError(f"Invalid tag: {tag}")
@@ -577,7 +577,7 @@ def update_item():
         if coordinates is not None:
             item_ref.update({"coordinates": coordinates_list})
         if tags is not None:
-            item_ref.update({"tags": tags})
+            item_ref.update({"tags": tags_list})
 
         # Get the updated item
         updated_item = item_ref.get()
