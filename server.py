@@ -842,6 +842,48 @@ def acquire_item():
     return "Item acquired successfully", 200
 
 
+@app.route("/delete_items", methods=["GET"])
+@handle_firestore_errors
+def delete_items():
+    """
+    Allows a designer to delete all items in a location.
+
+    Parameters
+
+    - location_id (string): The id of the location.
+    - api_key (string): The API key for the user (should be API_KEY_DESIGNER).
+
+    Response
+
+    - message (string): A message indicating that the items was deleted successfully.
+    - status code (integer): HTTP status code.
+    """
+    # Extract parameters from the request
+    api_key = request.args.get("api_key")
+    location_id = request.args.get("location_id")
+
+    # Check if the API key is valid
+    if api_key != API_KEY_DESIGNER:
+        return "Invalid API key", 401
+
+    # Check if the location exists
+    doc_ref = db.collection("locations").document(location_id)
+    location = doc_ref.get(retry=custom_retry)
+    if not location.exists:
+        return "Location does not exist", 400
+
+    # Delete the items in the location from Firestore
+    docs = (
+        db.collection("items")
+        .where(filter=FieldFilter(field_path="location_id", op_string="==", value=location_id))
+        .get(retry=custom_retry)
+    )
+    for doc in docs:
+        doc.reference.delete(retry=custom_retry)
+
+    return "Items deleted successfully", 200
+
+
 @app.route("/create_location", methods=["GET"])
 @handle_firestore_errors
 def create_location():

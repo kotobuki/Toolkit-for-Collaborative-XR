@@ -11,6 +11,7 @@
 | /get_item | ✔ | ✔ |  |  |
 | /list_items | ✔ | ✔ |  |  |
 | /acquire_item |  | ✔ |  |  |
+| /delete_items | ✔ |  |  |  |
 | /create_location | ✔ |  |  |  |
 | /delete_location | ✔ |  |  |  |
 | /list_locations | ✔ |  |  |  |
@@ -134,6 +135,20 @@ Parameters
 Response
 
 - `message` (string): A message indicating that the item was acquired successfully.
+- `status code` (integer): HTTP status code.
+
+### `/delete_items`
+
+Allows a designer to delete all items in a location.
+
+Parameters
+
+- `location_id` (string): The id of the location.
+- `api_key` (string): The API key for the user (should be `API_KEY_DESIGNER`).
+
+Response
+
+- `message` (string): A message indicating that the items was deleted successfully.
 - `status code` (integer): HTTP status code.
 
 ### `/create_location`

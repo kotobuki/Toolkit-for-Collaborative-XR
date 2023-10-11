@@ -147,6 +147,15 @@
 </div>
 
 <div class="endpoint">
+    <h2>/delete_items</h2>
+    <p>Allows a designer to delete all items in a location.</p>
+    <label for="/delete_items_location_id">location_id: The id of the location.</label><input type="text" id="/delete_items_location_id" name="location_id" class="/delete_items_param">
+    <button type="button" onclick="submitRequest('/delete_items')">Submit</button>
+    <p id="/delete_items_url"></p>
+    <p id="/delete_items_result"></p>
+</div>
+
+<div class="endpoint">
     <h2>/create_location</h2>
     <p>Allows a designer to create a new location.</p>
     <label for="/create_location_name">name: The name of the new location (should be unique, can't contain commas).</label><input type="text" id="/create_location_name" name="name" class="/create_location_param">
