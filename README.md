@@ -205,3 +205,17 @@ Install necessary packages and run the test script.
 pip install numpy tqdm
 python api_test.py {full_url_with_parameters}
 ```
+
+## Tuning the server
+
+If you choose the `Starter` plan (512MB of RAM, 0.5 CPU core), use the following configuration. This configuration allows for two simultaneous connections.
+
+```shell
+gunicorn --workers 1 --threads 2 server:app
+```
+
+If you choose the `Standard` plan (2 GB of RAM, 1 CPU core), use the following configuration. This configuration supports 6 simultaneous connections. You can experiment by increasing the number of threads to 3, which would allow for 9 simultaneous connections. However, always monitor the memory and CPU usage via the dashboard.
+
+```shell
+gunicorn --workers 3 --threads 2 server:app
+```
