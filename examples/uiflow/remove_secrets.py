@@ -9,13 +9,8 @@ def remove_secrets(filename):
     with open(filename, "r") as file:
         file_contents = file.read()
 
-    # Replacing the secrets using regular expressions
-    modified_content = re.sub(r"api_key=\w+", "api_key=API_KEY", file_contents)
-    modified_content = re.sub(r"item_id=[a-f0-9\-]+", "item_id=ITEM_ID", modified_content)
-    modified_content = re.sub(r"location_id=[a-f0-9\-]+", "location_id=LOCATION_ID", modified_content)
-
     # Replacing the "apikey" value with an empty string
-    modified_content = re.sub(r'("apikey":")\w+(")', r"\1\2", modified_content)
+    modified_content = re.sub(r'("apikey":")\w+(")', r"\1\2", file_contents)
 
     # Replacing the "uuid" value with an empty string
     modified_content = re.sub(r'("uuid":")[a-f0-9\-]+(")', r"\1\2", modified_content)
@@ -36,6 +31,30 @@ def remove_secrets(filename):
         password_field = block.find(".//value[@name='Msg']/shadow/field[@name='TEXT']")
         if password_field is not None:
             password_field.text = "WIFI_PASSWORD"
+
+    # Replacing the base URL with a placeholder text
+    for block in root.findall(".//block[@type='variables_set']"):
+        url_field = block.find("./field[@name='VAR']")
+        if url_field is not None and url_field.text == "URL":
+            base_url_field = block.find(".//value[@name='VALUE']/block/field[@name='TEXT']")
+            if base_url_field is not None and base_url_field.text.startswith("https://"):
+                base_url_field.text = "BASE_URL"
+
+    # Replacing the project specific values with placeholders
+    for block in root.findall(".//block[@type='text_add']"):
+        # For ?api_key=
+        api_key_field = block.find(".//value[@name='arg0']/shadow/field[@name='TEXT']")
+        if api_key_field is not None and api_key_field.text == "?api_key=":
+            secret_field = block.find(".//value[@name='arg1']/block/field[@name='TEXT']")
+            if secret_field is not None:
+                secret_field.text = "API_KEY"
+
+        # For &item_id=
+        item_id_field = block.find(".//value[@name='arg0']/shadow/field[@name='TEXT']")
+        if item_id_field is not None and item_id_field.text == "&item_id=":
+            secret_field = block.find(".//value[@name='arg1']/block/field[@name='TEXT']")
+            if secret_field is not None:
+                secret_field.text = "ITEM_ID"
 
     # Converting the XML back to string
     cleaned_blockly_xml = ET.tostring(root, encoding="unicode").replace("<root>", "").replace("</root>", "")
