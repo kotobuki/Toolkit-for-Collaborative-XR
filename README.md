@@ -116,7 +116,7 @@ end
 
 ### Fork the GitHub project and deploy
 
-1. Navigate to [https://github.com/kotobuki/api-for-ncku-workshop](https://github.com/kotobuki/api-for-ncku-workshop).
+1. Navigate to [https://github.com/kotobuki/Toolkit-for-Collaborative-XR/](https://github.com/kotobuki/Toolkit-for-Collaborative-XR/).
 2. Fork the project.
 3. Navigate to [https://render.com/](https://render.com/) and create an account (recommended to use a GitHub account).
 4. Click on the `New +` button on the top-right and choose `Web Service`.
