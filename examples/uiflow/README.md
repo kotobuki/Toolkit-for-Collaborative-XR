@@ -32,13 +32,16 @@ end
 ### Examples
 
 - For ATOM Controllers (e.g., ATOM LITE)
-  - `update_attribute_atom.mf5`: Update the `state` attribute of an item using the `/update_attribute` endpoint.
+  - `update_attribute_atom.m5f`: Update the `state` attribute of an item via the `/update_attribute` endpoint.
   - `get_attribute_atom.m5f`: Retrieve an attribute of an item via the `/get_attribute` endpoint.
-- For Fire Controller:
-  - `update_attribute_fire.mf5`: Update the `state` attribute of an item using the `/update_attribute` endpoint.
+- For Fire Controllers:
+  - `update_attribute_fire.m5f`: Update the `state` attribute of an item via the `/update_attribute` endpoint.
   - `get_attribute_fire.m5f`: Retrieve the `state` attribute of an item via the `/get_attribute` endpoint.
-  - `update_attribute_tof_fire.m5f`: Update the `distance` attribute with a value measured by a ToF sensor of an item via the `/update_attribute` endpoint.
-  - `update_attribute_tof_find_edges_fire.m5f`: Update the `distance` attribute using edge detection by thresholding a value measured by a ToF sensor via the `/update_attribute` endpoint.
+  - `update_attribute_tof_fire.m5f`: Update the `distance` attribute of an item with a value measured by a [ToF distance ranging sensor](https://docs.m5stack.com/en/unit/TOF) via the `/update_attribute` endpoint.
+  - `update_attribute_tof_find_edges_fire.m5f`: Update the `distance` attribute of an item to `near` or `far` based on edge detection thresholding from a [ToF distance ranging sensor](https://docs.m5stack.com/en/unit/TOF) via the `/update_attribute` endpoint.
+  - `update_attribute_motion_fire.m5f`: Update the `state` attribute of an item to `on` or `off` based on a value measured by a [PIR motion sensor](https://docs.m5stack.com/en/unit/PIR) via the `/update_attribute` endpoint.
+  - `update_attribute_rfid_fire.m5f`: Update the `uid` attribute of an item with a UID (Unique Item Identifier) measured by an [RFID reader/writer](https://docs.m5stack.com/en/unit/rfid2) via the `/update_attribute` endpoint.
+  - `get_attribute_servo_fire.m5f`: Retrieve the `state` attribute of an item via the `/get_attribute` endpoint and adjust the angle of a [servo actuator](https://docs.m5stack.com/en/accessory/servo_kit) according to the attribute value.
 
 ### Running an Example with UIFlow 1.0
 
